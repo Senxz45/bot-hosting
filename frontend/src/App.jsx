@@ -3,11 +3,18 @@ import { Moon, Sun } from 'lucide-react'
 import Sidebar from './components/Sidebar'
 import Header from './components/Header'
 import Dashboard from './pages/Dashboard'
+import Bots from './pages/Bots'
+import Deploy from './pages/Deploy'
+import Settings from './pages/Settings'
+import Login from './pages/Login'
+import useAuthStore from './stores/authStore'
 import './index.css'
 
 function App() {
   const [darkMode, setDarkMode] = useState(true)
   const [currentPage, setCurrentPage] = useState('dashboard')
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
+  const logout = useAuthStore((state) => state.logout)
 
   useEffect(() => {
     if (darkMode) {
@@ -17,13 +24,24 @@ function App() {
     }
   }, [darkMode])
 
+  if (!isAuthenticated) {
+    return <Login onSuccess={() => setCurrentPage('dashboard')} />
+  }
+
+  const pages = {
+    dashboard: <Dashboard />,
+    bots: <Bots />,
+    deploy: <Deploy />,
+    settings: <Settings onLogout={() => window.location.reload()} />
+  }
+
   return (
     <div className="flex h-screen bg-white dark:bg-dark-bg">
       <Sidebar currentPage={currentPage} setCurrentPage={setCurrentPage} />
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header darkMode={darkMode} setDarkMode={setDarkMode} currentPage={currentPage} />
         <main className="flex-1 overflow-auto p-6">
-          {currentPage === 'dashboard' && <Dashboard />}
+          {pages[currentPage]}
         </main>
       </div>
     </div>
