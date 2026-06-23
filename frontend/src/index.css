@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-white dark:bg-dark-bg text-gray-900 dark:text-gray-100 transition-colors duration-300;
+}
+
+.glass-effect {
+  @apply bg-white/10 dark:bg-black/20 backdrop-blur-xl border border-white/20;
+}
+
+.gradient-text {
+  @apply bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink bg-clip-text text-transparent;
+}
+
+.btn-primary {
+  @apply px-6 py-3 rounded-lg font-semibold bg-gradient-to-r from-neon-blue to-neon-purple text-white hover:shadow-lg hover:shadow-neon-blue/50;
+}
+
+.card-dark {
+  @apply glass-effect rounded-xl p-6;
+}
